@@ -40,11 +40,20 @@ python3 -m venv venv
 
 | Переменная | По умолчанию | Описание |
 |---|---|---|
-| `IMGF_IMG_DIR` | `/home/art/projects/comfyui-remote/outputs` | папка с картинками и манифестами |
+| `IMGF_IMG_DIR` | `/home/art/projects/image_gen_2026_oct/outputs` | папка с картинками и манифестами |
+| `IMGF_FEEDBACK` | `data/feedback.jsonl` рядом с `app.py` | файл с фидбеком |
 | `IMGF_PORT` | `8899` | порт |
 
 ```bash
 IMGF_IMG_DIR=/path/to/outputs IMGF_PORT=9000 ./venv/bin/python app.py
+```
+
+Если хочешь, чтобы фидбек сразу попадал в git-репозиторий (например, в приватный
+репозиторий с проектом), укажи путь к файлу — папка создастся сама:
+
+```bash
+IMGF_FEEDBACK=/home/art/projects/image_gen_2026_oct/feedback/feedback.jsonl \
+  ./venv/bin/python app.py
 ```
 
 ## Формат манифеста

@@ -6,8 +6,10 @@
 data/feedback.jsonl (append-only, переживает перезагрузку).
 
 Переменные окружения:
-  IMGF_IMG_DIR  — папка с картинками и манифестами *.jsonl (по умолчанию comfyui-remote/outputs)
-  IMGF_PORT     — порт (по умолчанию 8899)
+  IMGF_IMG_DIR    — папка с картинками и манифестами *.jsonl (по умолчанию projects/image_gen_2026_oct/outputs)
+  IMGF_FEEDBACK   — файл с фидбеком (по умолчанию data/feedback.jsonl рядом с app.py).
+                    Можно указать путь в другом репозитории — тогда фидбек сразу пишется туда.
+  IMGF_PORT       — порт (по умолчанию 8899)
 
 Запуск:  ./venv/bin/python app.py
 """
@@ -23,10 +25,11 @@ from pathlib import Path
 from flask import Flask, abort, jsonify, render_template_string, request, send_from_directory
 
 IMG_DIR = Path(os.environ.get(
-    "IMGF_IMG_DIR", "/home/art/projects/comfyui-remote/outputs")).expanduser()
+    "IMGF_IMG_DIR", "/home/art/projects/image_gen_2026_oct/outputs")).expanduser()
 DATA_DIR = Path(__file__).resolve().parent / "data"
-FEEDBACK = DATA_DIR / "feedback.jsonl"
 DATA_DIR.mkdir(exist_ok=True)
+FEEDBACK = Path(os.environ.get("IMGF_FEEDBACK", DATA_DIR / "feedback.jsonl")).expanduser()
+FEEDBACK.parent.mkdir(parents=True, exist_ok=True)
 FEEDBACK.touch(exist_ok=True)
 
 app = Flask(__name__)
